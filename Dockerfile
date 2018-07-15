@@ -15,10 +15,8 @@ RUN apk --update build-base \
     libpng-dev \
     hiredis
 
-
 RUN apk add --no-cache tzdata \  
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-
 
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer \
