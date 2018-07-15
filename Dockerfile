@@ -26,7 +26,11 @@ RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer \
     && composer self-update --clean-backups
 
-RUN docker-php-ext-install mysqli mbstring pdo pdo_mysql tokenizer xml zip gd
+RUN docker-php-ext-install mysqli mbstring pdo pdo_mysql tokenizer xml zip
+
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \ 
+    && docker-php-ext-install -j$(nproc) gd
+    
 RUN pecl channel-update pecl.php.net
 
 RUN pecl install swoole
