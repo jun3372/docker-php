@@ -2,7 +2,9 @@ FROM php:7.1.6-fpm-alpine
 
 LABEL maintainer="Jun <zhoujun3372@gmail.com>"
 
-RUN apk --update add curl \
+RUN apk --update add wget \
+    vim \
+    curl \
     git \
     build-base \
     libmemcached-dev \
