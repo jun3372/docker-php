@@ -1,8 +1,10 @@
-FROM php:7.1.6-fpm-alpine	
+FROM php:7.1.6-fpm-alpine
 
-LABEL maintainer="Jun3 <zhoujun3372@gmail.com>"
+LABEL maintainer="Jun <zhoujun3372@gmail.com>"
 
-RUN apk --update build-base \
+RUN apk --update add curl \
+    git \
+    build-base \
     libmemcached-dev \
     libmcrypt-dev \
     libxml2-dev \
@@ -22,12 +24,12 @@ RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer \
     && composer self-update --clean-backups
 
-RUN docker-php-ext-install mysqli mbstring pdo pdo_mysql tokenizer xml zip
+RUN docker-php-ext-install mysqli mbstring pdo pdo_mysql tokenizer xml zip gd
 RUN pecl channel-update pecl.php.net
 
 RUN pecl install swoole
 RUN pecl install redis
-RUN docker-php-ext-enable redis swoole
+RUN docker-php-ext-enable redis swoole 
 
 RUN apk del tzdata libpng-dev
 
