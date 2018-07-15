@@ -1,0 +1,40 @@
+FROM php:7.1.6-fpm-alpine	
+
+LABEL maintainer="Jun3 <zhoujun3372@gmail.com>"
+
+RUN apk --update build-base \
+    libmemcached-dev \
+    libmcrypt-dev \
+    libxml2-dev \
+    zlib-dev \
+    autoconf \
+    cyrus-sasl-dev \
+    libgsasl-dev \
+    supervisor \
+    libpng \
+    libpng-dev \
+    hiredis
+
+
+RUN apk add --no-cache tzdata \  
+    && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+
+RUN curl -sS https://getcomposer.org/installer | php \
+    && mv composer.phar /usr/local/bin/composer \
+    && composer self-update --clean-backups
+
+RUN docker-php-ext-install mysqli mbstring pdo pdo_mysql tokenizer xml zip
+RUN pecl channel-update pecl.php.net
+
+RUN pecl install swoole
+RUN pecl install redis
+RUN docker-php-ext-enable redis swoole
+
+RUN apk del tzdata libpng-dev
+
+RUN rm /var/cache/apk/*
+
+EXPOSE 9000
+
+CMD ["php-fpm"]
