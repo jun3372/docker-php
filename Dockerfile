@@ -11,9 +11,7 @@ RUN apk add --no-cache --virtual .build-deps \
     make \
     pkgconf \
     re2c \ 
-    tzdata 
-
-RUN apk add --no-cache --virtual .run-deps \
+    tzdata \
     coreutils \
     libltdl \
     freetype-dev \
@@ -44,12 +42,12 @@ RUN docker-php-ext-enable redis memcached
 
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime  && echo "Asia/Shanghai" >  /etc/timezone
 
-RUN apk del .build-deps
-RUN rm -rf /var/cache/apk/*
-
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer \
     && composer self-update --clean-backups
+
+RUN apk del .build-deps
+RUN rm -rf /var/cache/apk/*
     
 EXPOSE 9000
 
