@@ -2,8 +2,7 @@ FROM php:7.1.6-fpm-alpine
 
 LABEL maintainer="Jun <zhoujun3372@gmail.com>"
 
-echo 'https://mirrors.ustc.edu.cn/alpine/latest-stable/main' > /etc/apk/repositories
-echo 'https://mirrors.ustc.edu.cn/alpine/latest-stable/community' >> /etc/apk/repositories
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 
 RUN apk add --no-cache --virtual .build-deps \
     autoconf \
