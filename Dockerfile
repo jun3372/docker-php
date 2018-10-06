@@ -2,12 +2,6 @@ FROM php:7.1-fpm-alpine
 
 LABEL maintainer="Jun <zhoujun3372@gmail.com>"
 
-# 设置中国源
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
-
-# 设置http为https
-RUN sed -i 's/http/https/g' /etc/apk/repositories
-
 RUN apk add --no-cache --virtual .build-deps \
     autoconf \
     file \
@@ -51,18 +45,22 @@ RUN pecl install memcached && docker-php-ext-enable memcached
 RUN pecl install swoole && docker-php-ext-enable swoole
 # RUN && pecl install xdebug-2.5.0 
 
+# 中国时区
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime  && echo "Asia/Shanghai" >  /etc/timezone
 
+# Composer
 RUN curl -sS https://install.phpcomposer.com/installer | php \
     && mv composer.phar /usr/local/bin/composer \
-#     && composer config -g repo.packagist composer https://packagist.laravel-china.org \
+    # && composer config -g repo.packagist composer https://packagist.laravel-china.org \
     && composer self-update --clean-backups
 
+# 清理缓存
 RUN apk del .build-deps
 RUN rm -rf /var/cache/apk/*
 RUN rm -rf /var/lib/apt/lists/* 
 
+# 暴露端口
 EXPOSE 9000
 
-
+# 执行脚本
 ENTRYPOINT ["php-fpm"]
