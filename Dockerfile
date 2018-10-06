@@ -65,4 +65,4 @@ RUN rm -rf /var/lib/apt/lists/*
 EXPOSE 9000
 
 
-CMD ["php-fpm"]
+ENTRYPOINT ["php-fpm"]
