@@ -49,7 +49,7 @@ RUN pecl install swoole && docker-php-ext-enable swoole
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime  && echo "Asia/Shanghai" >  /etc/timezone
 
 # Composer
-RUN curl -sS https://install.phpcomposer.com/installer | php \
+RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer \
     # && composer config -g repo.packagist composer https://packagist.laravel-china.org \
     && composer self-update --clean-backups
