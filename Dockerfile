@@ -12,7 +12,7 @@ RUN apk add --no-cache --virtual .build-deps \
     pkgconf \
     re2c
 
-RUN apk add --no-cache --virtual tzdata \
+RUN apk add tzdata \
     zlib-dev \
     coreutils \
     supervisor \
